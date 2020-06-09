@@ -191,7 +191,11 @@ task filter_SB {
   command {
     Rscript ${script} ${infile} ${outprefix} ${cutoff_or} ${cutoff_p}
   }
-
+  
+  runtime {
+    docker: "gatksv/sv-base-mini:cbb1fc"
+  }
+  
   output {
     File outfile = "${outprefix}.SB.txt"
   }
@@ -209,6 +213,10 @@ task filter_FDR {
 
   command {
     Rscript ${script} ${infile} ${outprefix} ${min} ${size} ${e_fp} ${seq_err}
+  }
+
+  runtime {
+    docker: "gatksv/sv-base-mini:cbb1fc"
   }
 
   output {
@@ -235,6 +243,10 @@ task filter_RR {
     sh ${script_bash} -v ${infile} -b "$BEDPATH" -m ${map} -s ${seg} -l ${lcr} -p ${script_parse}
   }
 
+  runtime {
+    docker: "gatksv/sv-base-mini:cbb1fc"
+  }
+
   output {
     File tmpbed = "tmp.bed" # temporary BEDfile created from variants file
     File isec_file = "bed.isec.out.txt" # BEDtools intersect output
@@ -251,6 +263,10 @@ task filter_VC {
 
   command {
     python ${script} ${infile} ${dist} "${outprefix}.VC.txt"
+  }
+
+  runtime {
+    docker: "gatksv/sv-base-mini:cbb1fc"
   }
 
   output {
@@ -273,6 +289,10 @@ task update_filt_col {
     python ${script} -i ${infile} -o "ADfile.filt.txt"
   }
 
+  runtime {
+    docker: "gatksv/sv-base-mini:cbb1fc"
+  }
+
   output {
     File outfile = "ADfile.FILT.txt"
   }
@@ -291,6 +311,10 @@ task filter_OUT {
     Rscript ${script} ${infile} ${outprefix} ${cohort_size} ${cutoff}
   }
 
+  runtime {
+    docker: "gatksv/sv-base-mini:cbb1fc"
+  }
+
   output {
     File outfile = "${outprefix}.OUT.txt"
   }
@@ -306,6 +330,10 @@ task summarize_counts {
     python ${script} ${infile} "${outprefix}.SUMMARY_COUNTS.txt"
   }
 
+  runtime {
+    docker: "gatksv/sv-base-mini:cbb1fc"
+  }
+
   output {
     File outfile = "${outprefix}.SUMMARY_COUNTS.txt"
   }
@@ -319,6 +347,10 @@ task print_pass_vars {
 
   command {
     python ${script} ${infile} "${outprefix}.PASS.txt"
+  }
+
+  runtime {
+    docker: "gatksv/sv-base-mini:cbb1fc"
   }
 
   output {
