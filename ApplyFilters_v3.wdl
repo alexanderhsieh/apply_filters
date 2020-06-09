@@ -289,13 +289,15 @@ task update_filt_col {
   File infile 
   File script 
 
+  File outfile = "ADfile.filt.txt"
+
   command {
 
     ls -trhl ${infile}
 
-    python ${script} -i ${infile} -o "ADfile.filt.txt"
+    python ${script} -i ${infile} -o ${outfile}
 
-    ls -trhl "ADfile.filt.txt"
+    ls -trhl ${outfile}
   }
 
   runtime {
@@ -303,7 +305,7 @@ task update_filt_col {
   }
 
   output {
-    File outfile = "ADfile.FILT.txt"
+    File outfile = "${outfile}"
   }
 }
 

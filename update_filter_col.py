@@ -59,6 +59,8 @@ with open(input_file, 'r') as f:
 			else:
 				filtf.write('\t'.join(tmp) + '\t' + 'filter' + '\n')
 
+			print(idx)
+
 		else:
 			# initialize final filter
 			outfilt = []
@@ -143,10 +145,14 @@ with open(input_file, 'r') as f:
 				## write out updated file
 				tmpout = '\t'.join(tmp) 
 				filtf.write(tmpout + '\n')
+
+				print(tmpout)
 			
 			else:
 				tmpout = '\t'.join(tmp) + '\t' + '|'.join(outfilt)
 				filtf.write(tmpout + '\n')
+
+				print(tmpout)
 
 
 filtf.close()
