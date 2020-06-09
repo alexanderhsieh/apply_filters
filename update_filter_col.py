@@ -39,14 +39,11 @@ output_file = options.output_file
 ########################################
 ## create dictionary of cutoff values
 ########################################
-cutoff = {
-	'PV4_bq': 1e-3,
- 	'PV4_mq': 1e-6,
- 	'PV4_rp': 1e-3,
-	'MAF': 1e-4
-}
+cutoff = {'PV4_bq': '1e-3', 'PV4_mq': '1e-6', 'PV4_rp': '1e-3', 'MAF': '1e-4'}
   
-
+print('')
+print(cutoff)
+print('')
 ########################################
 ## Update variants file
 ########################################
