@@ -290,7 +290,12 @@ task update_filt_col {
   File script 
 
   command {
+
+    ls -trhl ${infile}
+
     python ${script} -i ${infile} -o "ADfile.filt.txt"
+
+    ls -trhl "ADfile.filt.txt"
   }
 
   runtime {
