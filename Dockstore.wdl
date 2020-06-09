@@ -175,6 +175,10 @@ task filter_PV4 {
     python ${script} ${infile} "${outprefix}.PV4.txt" 
   }
 
+  runtime {
+    docker: "gatksv/sv-base-mini:cbb1fc"
+  }
+
   output {
     File outfile = "${outprefix}.PV4.txt"
   }
