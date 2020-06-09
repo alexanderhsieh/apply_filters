@@ -41,9 +41,9 @@ output_file = options.output_file
 ########################################
 cutoff = {'PV4_bq': '1e-3', 'PV4_mq': '1e-6', 'PV4_rp': '1e-3', 'MAF': '1e-4'}
   
-print('')
-print(cutoff)
-print('')
+#print('')
+#print(cutoff)
+#print('')
 ########################################
 ## Update variants file
 ########################################
@@ -59,7 +59,7 @@ with open(input_file, 'r') as f:
 			else:
 				filtf.write('\t'.join(tmp) + '\t' + 'filter' + '\n')
 
-			print(idx)
+			#print(idx)
 
 		else:
 			# initialize final filter
@@ -146,13 +146,13 @@ with open(input_file, 'r') as f:
 				tmpout = '\t'.join(tmp) 
 				filtf.write(tmpout + '\n')
 
-				print(tmpout)
+				#print(tmpout)
 			
 			else:
 				tmpout = '\t'.join(tmp) + '\t' + '|'.join(outfilt)
 				filtf.write(tmpout + '\n')
 
-				print(tmpout)
+				#print(tmpout)
 
 
 filtf.close()
