@@ -54,10 +54,6 @@ workflow ApplyFilters {
 
   File script_update_filter_col
 
-  File script_outlier 
-  Int cohort_size
-  Int cutoff
-
   File script_filtct 
 
   File script_printpass 
@@ -81,9 +77,6 @@ workflow ApplyFilters {
     script_vc: "full path to script flag_vclust.py"
     vc_dist: "distance in bp to define variant clusters"
     script_update_filter_col: "full path to script update_filter_col.py"
-    script_outlier: "full path to script filter_outlier.R"
-    cohort_size: "number of samples in cohort"
-    cutoff: "default=1; use the point where the number of samples with a given number of de novos falls below cutoff"
     script_filtct: "full path to script get_filt_ct.py"
     script_printpass: "full path to script print_pass_only.py"
   }
