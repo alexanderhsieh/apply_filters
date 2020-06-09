@@ -289,15 +289,16 @@ task update_filt_col {
   File infile 
   File script 
 
-  File outfile = "ADfile.filt.txt"
+  String outsuffix = basename(infile, '.VEP.PV4.SB.FDR.RR.VC.txt')
+  String outfname = "ADfile.${outsuffix}.txt"
 
   command {
 
     ls -trhl ${infile}
 
-    python ${script} -i ${infile} -o ${outfile}
+    python ${script} -i ${infile} -o ${outfname}
 
-    ls -trhl ${outfile}
+    ls -trhl ${outfname}
   }
 
   runtime {
@@ -305,7 +306,7 @@ task update_filt_col {
   }
 
   output {
-    File outfile = "${outfile}"
+    File outfile = "${outfname}"
   }
 }
 
