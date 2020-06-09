@@ -176,7 +176,7 @@ task filter_PV4 {
   }
 
   runtime {
-    docker: "gatksv/sv-base-mini:cbb1fc"
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
   }
 
   output {
@@ -197,7 +197,7 @@ task filter_SB {
   }
   
   runtime {
-    docker: "gatksv/sv-base-mini:cbb1fc"
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
   }
   
   output {
@@ -220,7 +220,7 @@ task filter_FDR {
   }
 
   runtime {
-    docker: "gatksv/sv-base-mini:cbb1fc"
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
   }
 
   output {
@@ -248,7 +248,7 @@ task filter_RR {
   }
 
   runtime {
-    docker: "gatksv/sv-base-mini:cbb1fc"
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
   }
 
   output {
@@ -270,7 +270,7 @@ task filter_VC {
   }
 
   runtime {
-    docker: "gatksv/sv-base-mini:cbb1fc"
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
   }
 
   output {
@@ -294,7 +294,7 @@ task update_filt_col {
   }
 
   runtime {
-    docker: "gatksv/sv-base-mini:cbb1fc"
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
   }
 
   output {
@@ -316,7 +316,7 @@ task filter_OUT {
   }
 
   runtime {
-    docker: "gatksv/sv-base-mini:cbb1fc"
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
   }
 
   output {
@@ -335,7 +335,7 @@ task summarize_counts {
   }
 
   runtime {
-    docker: "gatksv/sv-base-mini:cbb1fc"
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
   }
 
   output {
@@ -354,7 +354,7 @@ task print_pass_vars {
   }
 
   runtime {
-    docker: "gatksv/sv-base-mini:cbb1fc"
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
   }
 
   output {
