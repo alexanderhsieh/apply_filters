@@ -52,6 +52,9 @@ workflow ApplyFilters {
   File script_vc 
   Int vc_dist 
 
+  File script_CAF
+  File cohort_AC_file
+
   File script_update_filter_col
 
   File script_filtct 
@@ -76,6 +79,8 @@ workflow ApplyFilters {
     rr_lcr: "full path to LCR BEDfile"
     script_vc: "full path to script flag_vclust.py"
     vc_dist: "distance in bp to define variant clusters"
+    script_CAF: "full path to script filter_cohort_AF.py"
+    cohort_AC_file: "file containing cohort allele counts and frequency; output of estimate_cohort_allele_frequency step"
     script_update_filter_col: "full path to script update_filter_col.py"
     script_filtct: "full path to script get_filt_ct.py"
     script_printpass: "full path to script print_pass_only.py"
@@ -127,10 +132,19 @@ workflow ApplyFilters {
     script = script_vc,
     dist = vc_dist
   }
+
+  # run CAF (cohort allele frequency filter)
+  call filter_CAF {
+    input:
+    infile = filter_VC.outfile,
+    script = script_CAF,
+    caf_file = cohort_AC_file
+  }
+
   #run update_filter_column script to combine filter flags into single column
   call update_filt_col {
     input:
-    infile = filter_VC.outfile,
+    infile = filter_CAF.outfile,
     script = script_update_filter_col
   }
 
@@ -276,6 +290,30 @@ task filter_VC {
   output {
     File outfile = "${outprefix}.VC.txt"
   }
+}
+
+#Adds cohort allele frequency filter-related columns to variants file for downstream filtering
+
+task filter_CAF {
+  File infile
+  File script
+  File caf_file
+
+  String outprefix = basename(infile, '.txt')
+
+  command {
+    python ${script} -i ${infile} -c ${caf_file} -o "${outprefix}.CAF.txt"
+  }
+
+  runtime {
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
+  }
+
+  output {
+    File outfile = "${outprefix}.CAF.txt"
+  }
+
+
 }
 
 #Parses filter information from upstream steps and combines into an updated filter column

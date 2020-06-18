@@ -39,7 +39,7 @@ output_file = options.output_file
 ########################################
 ## create dictionary of cutoff values
 ########################################
-cutoff = {'PV4_bq': '1e-3', 'PV4_mq': '1e-6', 'PV4_rp': '1e-3', 'MAF': '1e-4'}
+cutoff = {'PV4_bq': '1e-3', 'PV4_mq': '1e-6', 'PV4_rp': '1e-3', 'MAF': '1e-4', 'CAF': '0.01'}
   
 #print('')
 #print(cutoff)
@@ -77,6 +77,14 @@ with open(input_file, 'r') as f:
 			gene = tmp[idx['SYMBOL']]
 			#rsid = tmp[idx['rs_dbSNP151']] # DEPRECATED
 			rsid = tmp[idx['Existing_variation']] # DEPRECATED
+			
+
+			if tmp[idx['cohort_AF']] == '.':
+				cohort_af == 0.0
+			else:
+				cohort_af = float(tmp[idx['cohort_AF']])
+
+
 
 			## filter logic
 			
@@ -136,6 +144,14 @@ with open(input_file, 'r') as f:
 				outfilt.append('dbSNP_FAIL')
 			else:
 				outfilt.append('dbSNP_PASS')
+
+			## cohortAF
+			if cohort_af >= float(cutoff['CAF']):
+				#print(('FAIL', cohort_af, cutoff['CAF']))
+				outfilt.append('CAF_FAIL')
+			else:
+				#print(('PASS', cohort_af, cutoff['CAF']))
+				outfilt.append('CAF_PASS')
 
 
 			## update filter column
