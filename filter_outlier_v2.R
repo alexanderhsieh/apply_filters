@@ -15,7 +15,7 @@ case_cutoff <- as.numeric(args[5])
 ## Run code
 
 ## read in data
-a <- read.table(fname, sep='\t', header=T, quote='"', na.strings=c('.'))
+a <- read.table(fname, sep='\t', header=T, quote='"')
 
 ## duplicate table
 x <- a

@@ -79,7 +79,7 @@ with open(input_file, 'r') as f:
 			rsid = tmp[idx['Existing_variation']] # DEPRECATED
 			
 
-			if tmp[idx['cohort_AF']] == '.':
+			if tmp[idx['cohort_AF']] in ['.', 'NA']:
 				cohort_af == 0.0
 			else:
 				cohort_af = float(tmp[idx['cohort_AF']])
