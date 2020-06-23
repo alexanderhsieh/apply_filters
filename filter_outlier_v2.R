@@ -45,7 +45,9 @@ print(outliers)
 ## add columns to indicate outlier cutoff and to indicate outlier or not
 x$outlier_cutoff <- cutoff
 x$outlier_flag <- 'FALSE'
-x[x$id %in% outliers,]$outlier_flag <- 'TRUE'
+if(length(outliers) > 0) {
+  x[x$id %in% outliers,]$outlier_flag <- 'TRUE'
+}
 
 ## copy back columns to original dataframe
 a$outlier_cutoff <- x$outlier_cutoff
