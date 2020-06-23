@@ -104,7 +104,7 @@ with open(input_file, 'r') as f:
 				outfilt.append('SB_PASS')
 
 			## FDR-based minimum Nalt
-			if int(tmp[idx['altdp']]) < int(fdrmin):
+			if float(tmp[idx['altdp']]) < float(fdrmin):
 				outfilt.append('FDR_FAIL')
 			else:
 				outfilt.append('FDR_PASS')
