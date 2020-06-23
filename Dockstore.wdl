@@ -24,7 +24,7 @@
 ###########################################################################
 workflow ApplyFilters {
 
-  File anno 
+  Array[File] anno 
 
   Array[File] gvcfs
   Array[File] index_files
@@ -47,7 +47,7 @@ workflow ApplyFilters {
   File script_printpass 
 
   parameter_meta {
-    anno: "full path to file containing annotated denovos from ANNOTATION step"
+    anno: "array of paths to file containing annotated denovos from ANNOTATION step"
     gvcfs: "array of paths to gvcfs belonging to cohort members"
     index_files: "array of paths to gvcf index files"
     CAF_outprefix: "output file prefix for cohort allele frequency file"
@@ -65,6 +65,15 @@ workflow ApplyFilters {
   meta{
     author: "Alex Hsieh"
     email: "ahsieh@broadinstitute.org"
+  }
+
+  #########################################################
+  # gather sample-level callsets into a cohort-level callset
+  #########################################################
+  call gather_callsets {
+    input:
+    callsets = anno,
+    outprefix = output_prefix
   }
 
   #########################################################
@@ -107,7 +116,7 @@ workflow ApplyFilters {
   # run CAF (cohort allele frequency)
   call filter_CAF {
     input:
-    infile = anno,
+    infile = gather_callsets.out,
     script = script_CAF,
     caf_file = gather_shards.out
   }
@@ -162,6 +171,33 @@ workflow ApplyFilters {
 ###########################################################################
 #Task Definitions
 ###########################################################################
+
+# Gathers sample-level callsets into a cohort-level callset
+task gather_callsets {
+  Array[File] callsets
+  String outprefix
+
+  String outfname = "ADfile.${outprefix}.txt"
+ 
+  command {
+
+    while read file; do
+      cat $file >> "tmp.cohort.denovos.txt"
+    done < ${write_lines(callsets)};
+
+    grep "^id" "tmp.cohort.denovos.txt" | head -n 1 > "header.txt"
+
+    (cat header.txt; grep -v "^id" "tmp.cohort.denovos.txt") > ${outfname}
+  }
+
+  runtime {
+    docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
+  }
+
+  output {
+    File out = "${outfname}"
+  }
+}
 
 # merges array of single-sample gvcfs into a single cohort gvcf
 task bcftools_merge {
