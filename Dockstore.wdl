@@ -25,6 +25,7 @@
 workflow ApplyFilters {
 
   Array[File] anno 
+  String output_prefix
 
   Array[File] gvcfs
   Array[File] index_files
@@ -48,6 +49,7 @@ workflow ApplyFilters {
 
   parameter_meta {
     anno: "array of paths to file containing annotated denovos from ANNOTATION step"
+    output_prefix: "filename prefix for output files"
     gvcfs: "array of paths to gvcfs belonging to cohort members"
     index_files: "array of paths to gvcf index files"
     CAF_outprefix: "output file prefix for cohort allele frequency file"
