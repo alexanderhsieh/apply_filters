@@ -151,7 +151,7 @@ task bcftools_merge {
 		String outprefix
 	}
 
-	String outfname = "~{outprefix}.g.vcf"
+	String outfname = "~{outprefix}.g.vcf.gz"
 
 	command {
 		bcftools merge -l ~{write_lines(gvcfs)} -o ~{outfname} -O z -m all
