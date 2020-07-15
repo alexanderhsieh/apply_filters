@@ -239,6 +239,39 @@ task estimate_cohort_AF{
 	}
 }
 
+#Gathers shards of cohort AC files into single file
+task gather_shards {
+
+	input {
+		Array[File] shards 
+		String outprefix
+	}
+
+	command {
+
+		set -euo pipefail
+
+		while read file; do
+			cat $file >> "tmp.cat.txt"
+		done < ${write_lines(shards)};
+
+		grep "^var_id" "tmp.cat.txt" | head -n 1 > "header.txt"
+
+		(cat header.txt; grep -v "^var_id" "tmp.cat.txt") > "AC.${outprefix}.txt"
+
+	}
+
+	runtime {
+		docker: "gatksv/sv-base-mini:cbb1fc"
+		preemptible: 3
+		maxRetries: 3
+	}
+
+	output {
+		File out = "AC.${outprefix}.txt"
+	}
+}
+
 #Adds cohort allele frequency filter-related columns to variants file for downstream filtering
 task filter_CAF {
 
@@ -326,5 +359,56 @@ task update_filt_col {
 		File outfile = "~{outfname}"
 	}
 
+}
+
+
+#Parses filter column and summarize how many variants are flagged by each filter
+task summarize_counts {
+
+	input {
+		File infile 
+		File script
+	}
+
+	String outprefix = basename(infile, '.txt')
+
+	command {
+		python ~{script} ~{infile} "~{outprefix}.SUMMARY_COUNTS.txt"
+	}
+
+	runtime {
+		docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
+		preemptible: 3
+		maxRetries: 3
+	}
+
+	output {
+		File outfile = "~{outprefix}.SUMMARY_COUNTS.txt"
+	}
+}
+
+#Prints out all variants that pass all filters and that belong to samples that are not flagged as outliers
+task print_pass_vars {
+
+	input {
+		File infile 
+		File script 
+	}
+	
+	String outprefix = basename(infile, '.txt')
+
+	command {
+		python ~{script} ~{infile} "~{outprefix}.PASS.txt"
+	}
+
+	runtime {
+		docker: "mwalker174/sv-pipeline:mw-00c-stitch-65060a1"
+		preemptible: 3
+		maxRetries: 3
+	}
+
+	output {
+		File outfile = "~{outprefix}.PASS.txt"
+	}
 }
 
