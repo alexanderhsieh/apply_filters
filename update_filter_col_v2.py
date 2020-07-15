@@ -79,10 +79,10 @@ with open(input_file, 'r') as f:
 			rsid = tmp[idx['Existing_variation']] # DEPRECATED
 			
 
-			if tmp[idx['cohort_AF']] in ['.', 'NA']:
+			if tmp[idx['cohort_allele_frequency']] in ['.', 'NA']:
 				cohort_af == 0.0
 			else:
-				cohort_af = float(tmp[idx['cohort_AF']])
+				cohort_af = float(tmp[idx['cohort_allele_frequency']])
 
 			outlier_flag = tmp[idx['outlier_flag']]
 			if outlier_flag == '.':
