@@ -52,7 +52,7 @@ with open(input_file, 'r') as f:
 			outf.write(head + '\n')
 
 		else:
-			chr = tmp[idx['CHROM']] # use vcf formatting for chromosome (chr1 instead of 1)
+			chr = tmp[idx['chr']] # use vcf formatting for chromosome (chr1 instead of 1)
 			pos = tmp[idx['pos']]
 			ref = tmp[idx['ref']]
 			alt = tmp[idx['alt']]
