@@ -154,7 +154,7 @@ task bcftools_merge {
 	String outfname = "~{outprefix}.g.vcf"
 
 	command {
-		bcftools merge -l ~{write_lines(gvcfs)} -o ~{outfname} -O v
+		bcftools merge -l ~{write_lines(gvcfs)} -o ~{outfname} -O z -m all
 	}
 
 	runtime {
@@ -165,7 +165,7 @@ task bcftools_merge {
 	}
 
 	output {
-		File out = "${outfname}"
+		File out = "~{outfname}"
 	}
 }
 
@@ -184,16 +184,13 @@ task split_gvcf {
 		# pull header lines
 		zgrep "^#" ~{gvcf} > header.txt
 
-		# sort input vcf and bgzip
-		bgzip -c ~{gvcf} > "~{gvcf}.gz"
-
 		# tabix index input vcf
-		tabix -p vcf "~{gvcf}.gz"
+		tabix -p vcf ~{gvcf}
 
 		# split vcf by chromosome - use tabix -l to get all contig names from tabix index
-		for i in $(tabix -l ~{gvcf}.gz)
+		for i in $(tabix -l ~{gvcf})
 		do 
-			(cat header.txt; tabix ~{gvcf}.gz $i) > "~{outprefix}.$i.g.vcf"
+			(cat header.txt; tabix ~{gvcf} $i) > "~{outprefix}.$i.g.vcf"
 		done
 	}
 
