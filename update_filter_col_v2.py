@@ -39,7 +39,8 @@ output_file = options.output_file
 ########################################
 ## create dictionary of cutoff values
 ########################################
-cutoff = {'PV4_bq': '1e-3', 'PV4_mq': '1e-6', 'PV4_rp': '1e-3', 'MAF': '1e-4', 'CAF': '0.01'}
+#cutoff = {'PV4_bq': '1e-3', 'PV4_mq': '1e-6', 'PV4_rp': '1e-3', 'MAF': '1e-4', 'CAF': '0.01'}
+cutoff = {'PV4_bq': '0.05', 'PV4_mq': '0.05', 'PV4_rp': '0.05', 'MAF': '1e-4', 'CAF': '0.01'}
   
 #print('')
 #print(cutoff)
